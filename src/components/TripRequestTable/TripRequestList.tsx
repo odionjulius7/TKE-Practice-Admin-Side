@@ -77,7 +77,7 @@ const TripRequestList = (props: Props) => {
           },
         })}
       >
-        <Paper elevation={0} sx={{ maxWidth: 256 }}>
+        <Paper elevation={0} sx={{ maxWidth: "650px" }}>
           <FireNav component="nav" disablePadding>
             <ListItemButton component="a" href="#customized-list">
               <ListItemIcon sx={{ fontSize: 20 }}>🔥</ListItemIcon>
