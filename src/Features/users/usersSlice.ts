@@ -2,6 +2,41 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { User } from "../../models/DisplayUser.interface";
+
+// Create User
+export const createUser = createAsyncThunk(
+  "user/createUser",
+  async ({ user, token }: any, thunkAPI) => {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_ENDPOINT}/auth/register/user`,
+        user,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response?.data?.msg.includes("user already existed")) {
+        toast.info("user with this email already existed!");
+      } else {
+        toast.success("User created successfully!");
+      }
+      return response.data;
+    } catch (error: any) {
+      // if (error.response?.status === 404) {
+      //   toast.error(`Trip request with ID ${ids.id} not found`);
+      // } else {
+      //   toast.error("Unable to delete trip request");
+      // }
+      toast.error("Unable to create user!");
+      return thunkAPI.rejectWithValue("Unable to create user");
+    }
+  }
+);
+// OverView
+
 //
 export const fetchUsers = createAsyncThunk(
   "users/fetchUsers",
@@ -103,7 +138,7 @@ const userSlice = createSlice({
       })
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.loadingUser = false;
-        state.users = action.payload.users;
+        state.users = action.payload.users.reverse();
       })
       .addCase(fetchUsers.rejected, (state, action) => {
         state.loadingUser = false;
@@ -135,6 +170,18 @@ const userSlice = createSlice({
         state.bannerStatus = false;
         state.error =
           action.error.message || "Failed to create this user banner";
+      })
+      // fetch single trip request
+      .addCase(createUser.pending, (state) => {
+        state.loadingUser = true;
+        state.error = null;
+      })
+      .addCase(createUser.fulfilled, (state, action) => {
+        state.loadingUser = false;
+      })
+      .addCase(createUser.rejected, (state, action) => {
+        state.loadingUser = false;
+        state.error = action.error.message || "Failed to create user";
       });
   },
 });

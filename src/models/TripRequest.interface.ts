@@ -7,6 +7,7 @@ interface userdto {
   firstName?: string;
   userType?: string;
   phoneNumber?: string | number;
+  dateOfBirth?: string;
 }
 interface tripDetailsdto {
   AdultsCeleberatingWith?: number | string;

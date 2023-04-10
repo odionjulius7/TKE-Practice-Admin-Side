@@ -1,5 +1,6 @@
 import React from "react";
 import CircularProgress from "@mui/material/CircularProgress";
+import { Link } from "react-router-dom";
 
 import {
   Backdrop,
@@ -26,7 +27,6 @@ import {
   deleteTripRequest,
   markAsSeenTripRequest,
 } from "../../Features/tripRequest/tripRequestSlice";
-// import { TripRequest } from "../../models/TripRequest.interface";
 
 type Props = {};
 const data = {
@@ -81,6 +81,9 @@ const TripRequestList = (props: Props) => {
         console.error(error);
       }
     }
+  };
+  const handleAddUser = async () => {
+    navigate(`/user-trip-details/${singleTripReq[0]?._id.toString()}`);
   };
   //
   // console.log(singleTripReq[0]);
@@ -145,13 +148,9 @@ const TripRequestList = (props: Props) => {
                 <ListItemText
                   sx={{ my: 0 }}
                   primary={
-                    <CommonButton
-                      children={"Add User"}
-                      variant="outlined"
-                      onClick={() => {
-                        navigate("/user-trip-details");
-                      }}
-                    />
+                    <CommonButton variant="outlined" onClick={handleAddUser}>
+                      Add User
+                    </CommonButton>
                   }
                   primaryTypographyProps={{
                     fontSize: 20,
@@ -686,13 +685,9 @@ const TripRequestList = (props: Props) => {
               <ListItemText
                 sx={{ my: 0 }}
                 primary={
-                  <CommonButton
-                    children={"Add User"}
-                    variant="outlined"
-                    onClick={() => {
-                      navigate("/user-trip-details");
-                    }}
-                  />
+                  <CommonButton variant="outlined" onClick={handleAddUser}>
+                    Add User
+                  </CommonButton>
                 }
                 primaryTypographyProps={{
                   fontSize: 20,

@@ -127,7 +127,7 @@ export const tipRequestsSlice = createSlice({
       })
       .addCase(fetchTripRequests.fulfilled, (state, action) => {
         state.loading = false;
-        state.tripRequests = action.payload.tripRequests;
+        state.tripRequests = action.payload.tripRequests.reverse();
       })
       .addCase(fetchTripRequests.rejected, (state, action) => {
         state.loading = false;

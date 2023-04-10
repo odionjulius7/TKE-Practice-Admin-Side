@@ -6,9 +6,8 @@ import {
   Input,
   Stack,
 } from "@mui/material";
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 import { SnackBar } from "../../components/CommonComp";
 import MainBody from "../../components/MainBody/MainBody";
 import { login, reset } from "../../Features/auth/authSlice";
@@ -19,7 +18,7 @@ type Props = {};
 
 const Login = (props: Props) => {
   const [open, setOpen] = useState<boolean>(true);
-  const { isLoading, isSuccess, isAuthenticated, token } = useAppSelector(
+  const { isLoading, isSuccess, isAuthenticated } = useAppSelector(
     (state) => state.auth
   );
 
@@ -36,9 +35,9 @@ const Login = (props: Props) => {
 
   // loading back dop circle
   const [openModal, setOpenModal] = React.useState(true);
-  const handleToggle1 = () => {
-    setOpenModal(!openModal);
-  };
+  // const handleToggle1 = () => {
+  //   setOpenModal(!openModal);
+  // };
   // loading back dop circle
 
   const handleLogin = async () => {
@@ -47,8 +46,6 @@ const Login = (props: Props) => {
     try {
       if (email.length === 0 && password.length === 0) return;
       const loginUser: LoginUser = { email, password };
-      // console.log(loginUser);
-
       await dispatch(login(loginUser));
       setPassword("");
       setEmail("");
@@ -68,14 +65,13 @@ const Login = (props: Props) => {
   useEffect(() => {
     if (!isAuthenticated) return;
     navigate("/");
-  }, [isAuthenticated]);
+  }, [isAuthenticated, navigate]);
 
   if (isLoading)
     return (
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={openModal}
-        // onClick={handleToggle1}
       >
         <CircularProgress color="inherit" />
       </Backdrop>

@@ -29,7 +29,7 @@ function App() {
           element={<ProtectedRoute page={<AddUsers />} />}
         />
         <Route
-          path="/user-trip-details"
+          path="/user-trip-details/:id"
           element={<ProtectedRoute page={<AddUserFromTrip />} />}
         />
         <Route

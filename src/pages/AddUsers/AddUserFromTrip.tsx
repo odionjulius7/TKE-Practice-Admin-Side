@@ -1,16 +1,93 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavBar, TopNavBar, UserTable } from "../../components/index";
 import Grid from "@mui/material/Grid";
 import MainBody from "../../components/MainBody/MainBody";
-import { NotificationBadge } from "../../components/CommonComp";
+import { NotificationBadge, SnackBar } from "../../components/CommonComp";
 
-import { Box, Button, Divider, TextField } from "@mui/material";
+import {
+  Backdrop,
+  Box,
+  Button,
+  CircularProgress,
+  Divider,
+  TextField,
+} from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../../Features/storeHook";
+import { createUser } from "../../Features/users/usersSlice";
+// import { TripRequest } from "../../models/TripRequest.interface";
+import { useParams } from "react-router-dom";
+import { fetchSingleTripReq } from "../../Features/tripRequest/tripRequestSlice";
+import moment from "moment";
 
-type Props = {};
+type Props = {
+  // requestUser: any;
+};
 
 const handleSubmit = () => console.log("Submit");
 
 const AddUserFromTrip = (props: Props) => {
+  // loading back dop circle
+  const [openModal, setOpenModal] = React.useState(true);
+  const [open, setOpen] = useState<boolean>(true);
+  const { token } = useAppSelector((state) => state.auth);
+  const { loading, singleTripReq } = useAppSelector(
+    (state) => state.tripRequests
+  );
+  const { loadingUser } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+  let { id } = useParams(); // accept only type of string
+  console.log(singleTripReq);
+
+  //
+  const handleUserCreation = async () => {
+    try {
+      const user: any = {
+        email: singleTripReq[0]?.user.email,
+        firstName: singleTripReq[0]?.user.firstName,
+        lastName: singleTripReq[0]?.user.lastName,
+        gender: singleTripReq[0]?.user.gender,
+        postCode: singleTripReq[0]?.user.postCode,
+        phoneNumber: singleTripReq[0]?.user.phoneNumber,
+        dateOfBirth: singleTripReq[0]?.user.dateOfBirth,
+      };
+      console.log(user);
+
+      await dispatch(createUser({ user, token }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const message = (
+    <React.Fragment>
+      <em>Register ths user </em> <br />
+      <span>By clicking on submit</span>
+    </React.Fragment>
+  );
+  useEffect(() => {
+    if (id && token) {
+      // Make sure the token is available before making the request
+      // convert the id to string if it wasn't a string before
+      id = id as string;
+      const ids: { token: string; id: string } = { token, id };
+      dispatch(fetchSingleTripReq(ids));
+    }
+  }, [id, token, dispatch]);
+
+  if (loading)
+    return (
+      <Backdrop
+        sx={{
+          color: "#fff",
+          zIndex: (theme: { zIndex: { drawer: number } }) =>
+            theme.zIndex.drawer + 1,
+        }}
+        open={openModal}
+        // onClick={handleToggle1}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    );
   return (
     <Grid container>
       <Grid item xs={2}>
@@ -62,244 +139,105 @@ const AddUserFromTrip = (props: Props) => {
             }}
             noValidate
             autoComplete="off"
-            onSubmit={handleSubmit}
           >
             <div>
               <TextField
-                id="outlined-search"
-                label="First Name"
-                type="search"
+                id="standard-read-only-input"
+                label="Read Only"
+                defaultValue={singleTripReq[0]?.user.email}
+                InputProps={{
+                  readOnly: true,
+                }}
+                variant="filled"
               />
+              {/*  */}
               <TextField
-                id="outlined-number"
-                label="Last Name"
-                // InputLabelProps={{
-                //   shrink: true,
-                // }}
+                id="standard-read-only-input"
+                label="Read Only"
+                defaultValue={singleTripReq[0]?.user.firstName}
+                InputProps={{
+                  readOnly: true,
+                }}
+                variant="filled"
               />
+              {/*  */}
               <TextField
-                id="outlined-search"
-                label="Date Of Birth"
-                // type="date"
+                id="standard-read-only-input"
+                label="Read Only"
+                defaultValue={singleTripReq[0]?.user.lastName}
+                InputProps={{
+                  readOnly: true,
+                }}
+                variant="filled"
               />
             </div>
             <div>
+              {/*  */}
               <TextField
-                required
-                id="outlined-required"
-                label="Email"
-                // defaultValue=""
+                id="standard-read-only-input"
+                label="Read Only"
+                defaultValue={singleTripReq[0]?.user.gender}
+                InputProps={{
+                  readOnly: true,
+                }}
+                variant="filled"
               />
 
+              {/*  */}
               <TextField
-                id="outlined-number"
-                label="Phone Number"
-                type="number"
-                // InputLabelProps={{
-                //   shrink: true,
-                // }}
+                id="standard-read-only-input"
+                label="Read Only"
+                defaultValue={singleTripReq[0]?.user.postCode}
+                InputProps={{
+                  readOnly: true,
+                }}
+                variant="filled"
               />
+              {/*  */}
               <TextField
-                id="outlined-search"
-                label="Gender"
-                // type="search"
+                id="standard-read-only-input"
+                label="Read Only"
+                defaultValue={singleTripReq[0]?.user.phoneNumber}
+                InputProps={{
+                  readOnly: true,
+                }}
+                variant="filled"
               />
             </div>
             <div>
+              {/*  */}
               <TextField
-                id="outlined-search"
-                label="Search field"
-                type="search"
+                id="standard-read-only-input"
+                label="Read Only"
+                defaultValue={moment(singleTripReq[0]?.user.dateOfBirth).format(
+                  "ll"
+                )}
+                InputProps={{
+                  readOnly: true,
+                }}
+                variant="filled"
               />
-              <TextField
-                id="outlined-search"
-                label="Search field"
-                type="search"
-              />
+              {/*  */}
+              {/* <TextField
+                id="standard-read-only-input"
+                label="Read Only"
+                defaultValue="First Name"
+                InputProps={{
+                  readOnly: true,
+                }}
+                variant="filled"
+              /> */}
             </div>
-            <Button variant="contained" onClick={handleSubmit}>
-              Submit
+            <Button variant="contained" onClick={handleUserCreation}>
+              {loadingUser ? "loading" : "Submit"}
             </Button>
           </Box>
         </Box>
       </MainBody>
+
+      <SnackBar open={open} setOpen={setOpen} message={message} />
     </Grid>
   );
 };
 
 export default AddUserFromTrip;
-
-{
-  /* <Box
-sx={{
-  width: "100%",
-  // height: 300,
-  boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.25)",
-}}
->
-<Box
-  component="form"
-  sx={{
-    "& .MuiTextField-root": { m: 1, width: "25ch" },
-  }}
-  noValidate
-  autoComplete="off"
->
-  <div>
-    <TextField
-      required
-      id="outlined-required"
-      label="Required"
-      defaultValue="Hello World"
-    />
-    <TextField
-      disabled
-      id="outlined-disabled"
-      label="Disabled"
-      defaultValue="Hello World"
-    />
-    <TextField
-      id="outlined-password-input"
-      label="Password"
-      type="password"
-      autoComplete="current-password"
-    />
-    <TextField
-      id="outlined-read-only-input"
-      label="Read Only"
-      defaultValue="Hello World"
-      InputProps={{
-        readOnly: true,
-      }}
-    />
-    <TextField
-      id="outlined-number"
-      label="Number"
-      type="number"
-      InputLabelProps={{
-        shrink: true,
-      }}
-    />
-    <TextField
-      id="outlined-search"
-      label="Search field"
-      type="search"
-    />
-    <TextField
-      id="outlined-helperText"
-      label="Helper text"
-      defaultValue="Default Value"
-      helperText="Some important text"
-    />
-  </div>
-  <div>
-    <TextField
-      required
-      id="filled-required"
-      label="Required"
-      defaultValue="Hello World"
-      variant="filled"
-    />
-    <TextField
-      disabled
-      id="filled-disabled"
-      label="Disabled"
-      defaultValue="Hello World"
-      variant="filled"
-    />
-    <TextField
-      id="filled-password-input"
-      label="Password"
-      type="password"
-      autoComplete="current-password"
-      variant="filled"
-    />
-    <TextField
-      id="filled-read-only-input"
-      label="Read Only"
-      defaultValue="Hello World"
-      InputProps={{
-        readOnly: true,
-      }}
-      variant="filled"
-    />
-    <TextField
-      id="filled-number"
-      label="Number"
-      type="number"
-      InputLabelProps={{
-        shrink: true,
-      }}
-      variant="filled"
-    />
-    <TextField
-      id="filled-search"
-      label="Search field"
-      type="search"
-      variant="filled"
-    />
-    <TextField
-      id="filled-helperText"
-      label="Helper text"
-      defaultValue="Default Value"
-      helperText="Some important text"
-      variant="filled"
-    />
-  </div>
-  <div>
-    <TextField
-      required
-      id="standard-required"
-      label="Required"
-      defaultValue="Hello World"
-      variant="standard"
-    />
-    <TextField
-      disabled
-      id="standard-disabled"
-      label="Disabled"
-      defaultValue="Hello World"
-      variant="standard"
-    />
-    <TextField
-      id="standard-password-input"
-      label="Password"
-      type="password"
-      autoComplete="current-password"
-      variant="standard"
-    />
-    <TextField
-      id="standard-read-only-input"
-      label="Read Only"
-      defaultValue="Hello World"
-      InputProps={{
-        readOnly: true,
-      }}
-      variant="standard"
-    />
-    <TextField
-      id="standard-number"
-      label="Number"
-      type="number"
-      InputLabelProps={{
-        shrink: true,
-      }}
-      variant="standard"
-    />
-    <TextField
-      id="standard-search"
-      label="Search field"
-      type="search"
-      variant="standard"
-    />
-    <TextField
-      id="standard-helperText"
-      label="Helper text"
-      defaultValue="Default Value"
-      helperText="Some important text"
-      variant="standard"
-    />
-  </div>
-</Box>
-</Box> */
-}
