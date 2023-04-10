@@ -1,14 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavBar, TopNavBar, UserTable } from "../../components/index";
 import Grid from "@mui/material/Grid";
 import MainBody from "../../components/MainBody/MainBody";
 import { NotificationBadge } from "../../components/CommonComp";
 import { Divider } from "@mui/material";
 import SearchBar from "../../components/CommonComp/SearchBar";
+import { useAppDispatch, useAppSelector } from "../../Features/storeHook";
+import { fetchUsers } from "../../Features/users/usersSlice";
 
 type Props = {};
 
 const Users = (props: Props) => {
+  const token = useAppSelector((state) => state.auth.token);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (token) {
+      dispatch(fetchUsers(token));
+    }
+  }, [dispatch, token]);
+
   return (
     <Grid container>
       <Grid item xs={2}>

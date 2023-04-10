@@ -5,9 +5,36 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
-type Props = {};
+type Props = {
+  agreement: any;
+};
 
-function AgreementList({}: Props) {
+// can just be any
+type Items = {
+  title:
+    | string
+    | number
+    | boolean
+    | React.ReactElement<any, string | React.JSXElementConstructor<any>>
+    | React.ReactFragment
+    | React.ReactPortal
+    | null
+    | undefined;
+  document_link: any;
+  status:
+    | string
+    | number
+    | boolean
+    | React.ReactElement<any, string | React.JSXElementConstructor<any>>
+    | React.ReactFragment
+    | React.ReactPortal
+    | null
+    | undefined;
+};
+
+function AgreementList({ agreement }: Props) {
+  // console.log(agreement);
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -59,36 +86,47 @@ function AgreementList({}: Props) {
         />
       </ListItemButton>
       <Divider sx={{ width: "100" }} />
-      <ListItemButton sx={{ backgroundColor: "rgba(0, 0, 0, 0.04)" }}>
-        <ListItemText primary={`Document01`} />
-        <ListItemText
-          sx={{
-            "& .css-10hburv-MuiTypography-root": {
-              marginRight: "1rem",
-            },
-          }}
-          // primary={`view link`}
-        >
-          <a href="http://#" target="_blank" rel="noopener noreferrer">
-            View
-          </a>
-        </ListItemText>
-        <ListItemText
-          sx={{
-            "& .css-10hburv-MuiTypography-root": {
-              marginRight: "1rem",
-            },
-          }}
-          primary={`Not Signed`}
-        />
-        <ActionButton
-          anchorEl={anchorEl}
-          open={open}
-          handleClose={handleClose}
-          handleClick={handleClick}
-        />
-      </ListItemButton>
-      <Divider sx={{ width: "100" }} />
+      {agreement?.map((item: Items, index: React.Key | null | undefined) => {
+        return (
+          <div key={index}>
+            <ListItemButton sx={{ backgroundColor: "rgba(0, 0, 0, 0.04)" }}>
+              <ListItemText primary={item?.title} />
+              <ListItemText
+                sx={{
+                  "& .css-10hburv-MuiTypography-root": {
+                    marginRight: "1rem",
+                  },
+                }}
+                // primary={`view link`}
+              >
+                <a
+                  // href={`http://`}
+                  href={`${item?.document_link}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View
+                </a>
+              </ListItemText>
+              <ListItemText
+                sx={{
+                  "& .css-10hburv-MuiTypography-root": {
+                    marginRight: "1rem",
+                  },
+                }}
+                primary={item?.status}
+              />
+              <ActionButton
+                anchorEl={anchorEl}
+                open={open}
+                handleClose={handleClose}
+                handleClick={handleClick}
+              />
+            </ListItemButton>
+            <Divider sx={{ width: "100" }} />
+          </div>
+        );
+      })}
     </div>
   );
 }

@@ -67,11 +67,11 @@ const NavBarList = (props: Props) => {
   const navigate: NavigateFunction = useNavigate();
   const dispatch = useAppDispatch();
   const navigateTo = () => {
-    // localStorage.clear();
-    dispatch(resetTokenUser());
     persistor.purge().then(() => {
       console.log("Persisted data has been purged");
     });
+    localStorage.clear();
+    dispatch(resetTokenUser());
   };
   return (
     <>

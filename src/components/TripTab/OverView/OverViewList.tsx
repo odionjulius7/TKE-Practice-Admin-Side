@@ -1,9 +1,11 @@
 import { Divider, ListItemButton, ListItemText } from "@mui/material";
-import React from "react";
+import moment from "moment";
 
-type Props = {};
+type Props = {
+  overview: any;
+};
 
-function OverViewList({}: Props) {
+function OverViewList({ overview }: Props) {
   return (
     <div>
       <ListItemButton>
@@ -37,9 +39,9 @@ function OverViewList({}: Props) {
       </ListItemButton>
       <Divider sx={{ width: "100" }} />
       <ListItemButton sx={{ backgroundColor: "rgba(0, 0, 0, 0.04)" }}>
-        <ListItemText primary={`France`} />
-        <ListItemText primary={`May 2, 2023`} />
-        <ListItemText primary={`Jun 3, 2023`} />
+        <ListItemText primary={overview?.title} />
+        <ListItemText primary={moment(overview?.startDate).format("ll")} />
+        <ListItemText primary={moment(overview?.endDate).format("ll")} />
       </ListItemButton>
     </div>
   );

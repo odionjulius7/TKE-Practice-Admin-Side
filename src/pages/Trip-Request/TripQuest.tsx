@@ -1,5 +1,5 @@
 import React from "react";
-import { NavBar, TopNavBar, TripRequestTable } from "../../components/index";
+import { NavBar, TopNavBar, TripRequestTable01 } from "../../components/index";
 import Grid from "@mui/material/Grid";
 import MainBody from "../../components/MainBody/MainBody";
 import { NotificationBadge } from "../../components/CommonComp";
@@ -34,7 +34,7 @@ const TripQuest = (props: Props) => {
         </TopNavBar>
 
         <Divider sx={{ margin: "2rem 0" }} />
-        <TripRequestTable />
+        <TripRequestTable01 />
       </MainBody>
     </Grid>
   );

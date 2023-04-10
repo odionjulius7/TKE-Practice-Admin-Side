@@ -3,6 +3,8 @@ import { GridCellParams, GridColDef } from "@mui/x-data-grid";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import DataTable from "../DataTable/DataTable";
 import { Button } from "@mui/material";
+import { useAppSelector } from "../../Features/storeHook";
+import { User } from "../../models/DisplayUser.interface";
 
 type Props = {
   //   rows: [];
@@ -12,11 +14,14 @@ type Props = {
 const tableStylesx = { height: 450, width: "100%" };
 
 const UserTable = (props: Props) => {
+  const users1 = useAppSelector((state) => state.user.users);
   const [users, setUsers] = useState<[]>([]);
+  const [tableUsers, setTableUsers] = useState<User[]>([]);
 
-  //
+  // console.log(users1);
+  // console.log(tablUsers);
 
-  function CustomLinkCell({ value }: { value: number }) {
+  function CustomLinkCell({ value }: { value: string }) {
     const navigate: NavigateFunction = useNavigate();
 
     function handleClick() {
@@ -35,27 +40,27 @@ const UserTable = (props: Props) => {
       width: 90,
     },
     {
-      field: "name", // the key to display in users array {}
-      headerName: "name", // the name of that header
+      field: "firstName", // the key to display in users array {}
+      headerName: "First Name", // the name of that header
       width: 200,
       editable: true,
       // renderCell: (params) => <CustomLinkCell value={params.row.id} />,
     },
     {
-      field: "username", // the key to display in users array {}
-      headerName: "username", // the name of that header
+      field: "lastName", // the key to display in users array {}
+      headerName: "Last Name", // the name of that header
       width: 200,
       editable: true,
     },
     {
-      field: "phone", // the key to display in users array {}
-      headerName: "phone Num.", // the name of that header
+      field: "email", // the key to display in users array {}
+      headerName: "Email", // the name of that header
       width: 200,
       editable: true,
     },
     {
-      field: "website", // the key to display in users array {}
-      headerName: "website", // the name of that header
+      field: "phoneNumber", // the key to display in users array {}
+      headerName: "Phone Num.", // the name of that header
       width: 200,
       editable: true,
     },
@@ -64,12 +69,28 @@ const UserTable = (props: Props) => {
       headerName: "Details",
       width: 150,
       renderCell: (params: GridCellParams) => (
-        <CustomLinkCell value={params.row.id as number} />
+        <CustomLinkCell value={params.row.email as string} />
       ),
     },
   ];
 
   //
+  useEffect(() => {
+    if (Array.isArray(users1)) {
+      const newUser = users1.filter((user) => user.role === "user");
+      const userProps: any = newUser.map((user, index) => {
+        return {
+          _id: user?._id,
+          id: index + 1,
+          firstName: user?.firstName,
+          lastName: user?.lastName,
+          email: user?.email,
+          phoneNumber: user?.phoneNumber,
+        };
+      });
+      setTableUsers([...userProps]);
+    }
+  }, [users1]);
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
@@ -79,9 +100,9 @@ const UserTable = (props: Props) => {
 
   return (
     <DataTable
-      rows={users}
+      rows={tableUsers}
       columns={columns}
-      loading={!users.length}
+      loading={!tableUsers.length}
       sx={tableStylesx}
     />
   );

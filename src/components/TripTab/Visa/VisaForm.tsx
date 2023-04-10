@@ -1,7 +1,10 @@
 import * as React from "react";
 import FormControlUnstyled from "@mui/base/FormControlUnstyled";
 
-import { Input, SelectChangeEvent, Stack } from "@mui/material";
+import { Button, Input, SelectChangeEvent, Stack } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../../../Features/storeHook";
+import { useState } from "react";
+import { createTripVisa } from "../../../Features/Trip/tripSlice";
 
 const blue = {
   100: "#DAECFF",
@@ -23,23 +26,50 @@ const grey = {
   900: "#1A2027",
 };
 
-type Props = {};
-const VisaForm = (props: Props) => {
-  const [age, setAge] = React.useState("");
+type Props = { id: any };
+const VisaForm = ({ id }: Props) => {
+  const tripStatus = useAppSelector((state) => state.trips.status);
+  const [document_link, setDocument_link] = useState("");
+  const [title, setTitle] = useState("");
+  const dispatch = useAppDispatch();
+  //
+  const handleSubmit = async () => {
+    try {
+      if (title.length === 0 || setDocument_link.length === 0) return;
+      const visa: {
+        title: string;
+        document_link: string;
+      } = {
+        title,
+        document_link,
+      };
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value);
+      await dispatch(createTripVisa({ visa, id }));
+      console.log(visa);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  // const handleChange = (event: SelectChangeEvent) => {
+  //   setAge(event.target.value);
+  // };
   return (
     <FormControlUnstyled defaultValue="" required>
       <Stack sx={{ margin: "0.5rem 0" }}>
         <label>Visa Title</label>
-        <Input name="ttile" />
+        <Input name="ttile" onChange={(e) => setTitle(e.target.value)} />
       </Stack>
       <Stack sx={{ margin: "1.2rem 0" }}>
         <label>Visa Link</label>
-        <Input name="date" />
+        <Input
+          name="document_link"
+          onChange={(e) => setDocument_link(e.target.value)}
+        />
       </Stack>
+      <Button variant="contained" onClick={handleSubmit}>
+        {tripStatus ? "loading..." : "Submit"}
+      </Button>
     </FormControlUnstyled>
   );
 };

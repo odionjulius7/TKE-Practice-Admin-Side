@@ -2,7 +2,9 @@ import { configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { authReducer } from "./auth/authSlice";
+import userSlice from "./users/usersSlice";
 import tipRequestsSlice from "./tripRequest/tripRequestSlice";
+import tripsSlice from "./Trip/tripSlice";
 import { combineReducers } from "redux";
 
 // Define the root state type
@@ -11,7 +13,9 @@ export type RootState = ReturnType<typeof rootReducer>;
 // Define the root reducer
 const rootReducer = combineReducers({
   auth: authReducer,
+  user: userSlice,
   tripRequests: tipRequestsSlice,
+  trips: tripsSlice,
 });
 
 // Define the persist config

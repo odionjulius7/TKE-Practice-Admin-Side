@@ -18,7 +18,7 @@ interface Props1 {
   tripType?: string;
   userType?: string;
 }
-const TripRequestTable = (props: Props) => {
+const TriRequestTable01 = (props: Props) => {
   // const [users, setUsers] = useState<[]>([]);
   const [user1, setUser1] = useState<Props1[]>([]);
   const tripRequests = useAppSelector(
@@ -100,10 +100,10 @@ const TripRequestTable = (props: Props) => {
   //
   useEffect(() => {
     if (Array.isArray(tripRequests)) {
-      const newTripRequests = tripRequests.filter(
-        (trip) => trip.requestStatus === "new"
-      );
-      const props = newTripRequests.map((trip, index) => {
+      //   const newTripRequests = tripRequests.filter(
+      //     (trip) => trip.requestStatus === "new"
+      //   );
+      const props = tripRequests.map((trip, index) => {
         return {
           _id: trip._id,
           id: index + 1,
@@ -129,4 +129,4 @@ const TripRequestTable = (props: Props) => {
   );
 };
 
-export default TripRequestTable;
+export default TriRequestTable01;

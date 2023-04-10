@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import React, { FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import { SnackBar } from "../../components/CommonComp";
 import MainBody from "../../components/MainBody/MainBody";
 import { login, reset } from "../../Features/auth/authSlice";
@@ -40,14 +41,22 @@ const Login = (props: Props) => {
   };
   // loading back dop circle
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     // (e: FormEvent<HTMLFormElement>)
     // e.preventDefault();
-    if (email.length === 0 && password.length === 0) return;
-    const loginUser: LoginUser = { email, password };
-    // console.log(loginUser);
+    try {
+      if (email.length === 0 && password.length === 0) return;
+      const loginUser: LoginUser = { email, password };
+      // console.log(loginUser);
 
-    dispatch(login(loginUser));
+      await dispatch(login(loginUser));
+      setPassword("");
+      setEmail("");
+    } catch (error) {
+      console.log(error);
+      setPassword("");
+      setEmail("");
+    }
   };
 
   useEffect(() => {
@@ -111,12 +120,17 @@ const Login = (props: Props) => {
           <h2 style={{ textAlign: "center" }}>Login</h2>
           <Stack sx={{ margin: "0.5rem 0" }}>
             <label>Email</label>
-            <Input name="email" onChange={(e) => setEmail(e.target.value)} />
+            <Input
+              name="email"
+              type="email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </Stack>
           <Stack sx={{ margin: "2rem 0" }}>
             <label>Password</label>
             <Input
               name="password"
+              type="password"
               onChange={(e) => setPassword(e.target.value)}
             />
           </Stack>

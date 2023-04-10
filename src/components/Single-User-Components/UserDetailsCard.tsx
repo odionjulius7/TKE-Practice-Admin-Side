@@ -4,10 +4,13 @@ import { CommonButton, UserAvatar } from "../CommonComp";
 import testImg from "../../img/test.jpeg";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { User } from "../../models/DisplayUser.interface";
 
-type Props = {};
+type Props = {
+  user: User | null;
+};
 
-const UserDetailsCard = (props: Props) => {
+const UserDetailsCard = ({ user }: Props) => {
   return (
     <Stack
       sx={{
@@ -24,17 +27,18 @@ const UserDetailsCard = (props: Props) => {
       <Stack>
         <Stack>
           <Typography component="h6" variant="h6">
-            Name: <span style={{ fontSize: "1.2rem" }}> Jude</span>
+            Name: <span style={{ fontSize: "1.2rem" }}> {user?.firstName}</span>
           </Typography>
         </Stack>
         <Stack>
           <Typography component="h6" variant="h6">
-            Email: <span style={{ fontSize: "1.2rem" }}> jude@gmail.com</span>
+            Email: <span style={{ fontSize: "1.2rem" }}> {user?.email}</span>
           </Typography>
         </Stack>
         <Stack>
           <Typography component="h6" variant="h6">
-            Phone Number: <span style={{ fontSize: "1.2rem" }}> 012345678</span>
+            Phone Number:{" "}
+            <span style={{ fontSize: "1.2rem" }}> {user?.phoneNumber}</span>
           </Typography>
         </Stack>
         <CommonButton
@@ -42,6 +46,7 @@ const UserDetailsCard = (props: Props) => {
           size="small"
           variant="contained"
           color="info"
+          onClick={() => console.log("hi")}
         />
       </Stack>
     </Stack>

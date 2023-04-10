@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, Reducer } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import { DisplayUser } from "../../models/DisplayUser.interface";
 import { LoginUser } from "../../models/LoginUser.interface";
 import authService from "../../services/auth.service";
@@ -6,15 +7,17 @@ import authService from "../../services/auth.service";
 // const storedUser: string | null = localStorage.getItem("user"); //the name of the data store on lstorage is string
 // const user: DisplayUser | null = !!storedUser ? JSON.parse(storedUser) : null;
 
-// const storedToken: string | null = localStorage.getItem("loginToken");
-// const tokened: string | null = !!storedToken ? JSON.parse(storedToken) : null;
-// Http API Calls
 export const login = createAsyncThunk(
   "auth/login",
   async (user: LoginUser, thunkAPI) => {
     try {
-      return await authService.login(user);
+      // return await authService.login(user);
+      const response = await authService.login(user);
+      toast.success("Login successful");
+      console.log("successfully logged in");
+      return response;
     } catch (error) {
+      toast.error("Unable to login");
       return thunkAPI.rejectWithValue("Unable to login");
     }
   }
@@ -84,3 +87,10 @@ const authSlice = createSlice({
 export const { reset, resetTokenUser } = authSlice.actions;
 
 export const authReducer: Reducer<AuthState> = authSlice.reducer;
+
+// const storedUser: string | null = localStorage.getItem("user"); //the name of the data store on lstorage is string
+// const user: DisplayUser | null = !!storedUser ? JSON.parse(storedUser) : null;
+
+// const storedToken: string | null = localStorage.getItem("loginToken");
+// const tokened: string | null = !!storedToken ? JSON.parse(storedToken) : null;
+// Http API Calls

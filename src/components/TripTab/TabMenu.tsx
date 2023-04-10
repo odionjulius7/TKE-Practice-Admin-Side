@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TabsUnstyled from "@mui/base/TabsUnstyled";
 import TabsListUnstyled from "@mui/base/TabsListUnstyled";
 import TabPanelUnstyled from "@mui/base/TabPanelUnstyled";
@@ -7,6 +7,9 @@ import TabUnstyled, { tabUnstyledClasses } from "@mui/base/TabUnstyled";
 import { styled } from "@mui/system";
 import { Box } from "@mui/material";
 
+import { useParams } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../Features/storeHook";
+import { fetchSingleTrip } from "../../Features/Trip/tripSlice";
 import {
   PaymentList,
   OverViewForm,
@@ -115,6 +118,22 @@ const TabsList = styled(TabsListUnstyled)(
 type Props = {};
 
 const TabMenu = (props: Props) => {
+  const token = useAppSelector((state) => state.auth.token);
+  const { singleTrip, status } = useAppSelector((state) => state.trips);
+  const { id } = useParams();
+  const dispatch = useAppDispatch();
+  // console.log(id);
+  // console.log(singleTrip?.overview);
+
+  useEffect(() => {
+    if (id && token) {
+      // Make sure the token is available before making the request
+      // convert the id to string if it wasn't a string before
+      // let idm = id as string;
+      const ids: { token: string; id: string } = { token, id };
+      dispatch(fetchSingleTrip(ids));
+    }
+  }, [id, token, dispatch, status]);
   return (
     <TabsUnstyled defaultValue={0}>
       <TabsList>
@@ -137,17 +156,17 @@ const TabMenu = (props: Props) => {
               padding: "2rem",
             }}
           >
-            <OverViewForm />
+            <OverViewForm id={singleTrip?._id} />
           </Box>
           <Box
             sx={{
               width: "50%",
-              height: 150,
+              height: "auto",
               boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.25)",
               padding: "2rem 0",
             }}
           >
-            <OverViewList />
+            <OverViewList overview={singleTrip?.overview} />
           </Box>
         </div>
       </TabPanel>
@@ -161,7 +180,7 @@ const TabMenu = (props: Props) => {
               padding: "2rem",
             }}
           >
-            <FlightDetailsForm />
+            <FlightDetailsForm id={singleTrip?._id} />
           </Box>
           <Box
             sx={{
@@ -171,7 +190,7 @@ const TabMenu = (props: Props) => {
               padding: "2rem 0",
             }}
           >
-            <FlightDetailsList />
+            <FlightDetailsList flight={singleTrip?.flightDetails} />
           </Box>
         </div>
       </TabPanel>
@@ -185,17 +204,17 @@ const TabMenu = (props: Props) => {
               padding: "2rem",
             }}
           >
-            <AgreementForm />
+            <AgreementForm id={singleTrip?._id} />
           </Box>
           <Box
             sx={{
               width: "60%",
-              height: 300,
+              height: "auto",
               boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.25)",
               padding: "2rem 0",
             }}
           >
-            <AgreementList />
+            <AgreementList agreement={singleTrip?.agreements} />
           </Box>
         </div>
       </TabPanel>
@@ -204,12 +223,12 @@ const TabMenu = (props: Props) => {
           <Box
             sx={{
               width: "40%",
-              height: 300,
+              height: 400,
               boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.25)",
               padding: "2rem",
             }}
           >
-            <PaymentForm />
+            <PaymentForm id={singleTrip?._id} />
           </Box>
           <Box
             sx={{
@@ -219,7 +238,7 @@ const TabMenu = (props: Props) => {
               padding: "2rem 0",
             }}
           >
-            <PaymentList />
+            <PaymentList payment={singleTrip?.payment} />
           </Box>
         </div>
       </TabPanel>
@@ -228,12 +247,12 @@ const TabMenu = (props: Props) => {
           <Box
             sx={{
               width: "50%",
-              height: 150,
+              height: 200,
               boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.25)",
               padding: "2rem",
             }}
           >
-            <TravelConForm />
+            <TravelConForm id={singleTrip?._id} />
           </Box>
           <Box
             sx={{
@@ -243,7 +262,9 @@ const TabMenu = (props: Props) => {
               padding: "2rem 0",
             }}
           >
-            <TravelConList />
+            <TravelConList
+              travelConfirmation={singleTrip?.travelConfirmation}
+            />
           </Box>
         </div>
       </TabPanel>
@@ -252,12 +273,12 @@ const TabMenu = (props: Props) => {
           <Box
             sx={{
               width: "50%",
-              height: 300,
+              height: 200,
               boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.25)",
               padding: "2rem",
             }}
           >
-            <VisaForm />
+            <VisaForm id={singleTrip?._id} />
           </Box>
           <Box
             sx={{
@@ -267,7 +288,7 @@ const TabMenu = (props: Props) => {
               padding: "2rem",
             }}
           >
-            <VisaList />
+            <VisaList visa={singleTrip?.visa} />
           </Box>
         </div>
       </TabPanel>

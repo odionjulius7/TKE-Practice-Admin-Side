@@ -9,6 +9,9 @@ import { adminTheme } from "./adminTheme";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./Features/reduxStore";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 // import { store } from "./Features/reduxStore";
 
 const root = ReactDOM.createRoot(
@@ -17,11 +20,12 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <PersistGate persistor={persistor}>
-      <ThemeProvider theme={adminTheme}>
-        <BrowserRouter>
+      <BrowserRouter>
+        <ToastContainer theme="dark" autoClose={3000} />
+        <ThemeProvider theme={adminTheme}>
           <App />
-        </BrowserRouter>
-      </ThemeProvider>
+        </ThemeProvider>
+      </BrowserRouter>
     </PersistGate>
   </Provider>
 );

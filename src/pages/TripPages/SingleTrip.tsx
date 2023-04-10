@@ -1,10 +1,10 @@
-import React from "react";
-import { NavBar, TopNavBar, UserTable } from "../../components/index";
+// import React, { useEffect } from "react";
+import { NavBar, TopNavBar } from "../../components/index";
 import Grid from "@mui/material/Grid";
 import MainBody from "../../components/MainBody/MainBody";
 import { NotificationBadge } from "../../components/CommonComp";
 
-import { Box, Divider } from "@mui/material";
+import { Divider } from "@mui/material";
 import { TabMenu } from "../../components/TripTab";
 
 type Props = {};
@@ -44,3 +44,21 @@ const SingleTrip = (props: Props) => {
 };
 
 export default SingleTrip;
+// function dispatch(
+//   arg0: AsyncThunkAction<
+//     any,
+//     { id: string; token: string },
+//     {
+//       state?: unknown;
+//       dispatch?: Dispatch<AnyAction> | undefined;
+//       extra?: unknown;
+//       rejectValue?: unknown;
+//       serializedErrorType?: unknown;
+//       pendingMeta?: unknown;
+//       fulfilledMeta?: unknown;
+//       rejectedMeta?: unknown;
+//     }
+//   >
+// ) {
+//   throw new Error("Function not implemented.");
+// }

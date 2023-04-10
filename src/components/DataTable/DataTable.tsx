@@ -1,8 +1,21 @@
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
 
+interface Props1 {
+  _id: string | number;
+  id?: number;
+  createdAt?: string;
+  status?: string;
+  email?: string;
+  name?: string;
+  tripType?: string;
+  userType?: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+}
 type Props = {
-  rows: [];
+  rows: Props1[];
   columns: GridColDef[];
   loading: boolean;
   sx: {};

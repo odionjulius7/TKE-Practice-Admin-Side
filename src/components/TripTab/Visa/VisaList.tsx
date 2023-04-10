@@ -5,9 +5,11 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
-type Props = {};
+type Props = { visa: any };
 
-function VisaList({}: Props) {
+function VisaList({ visa }: Props) {
+  // console.log(visa);
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -52,29 +54,37 @@ function VisaList({}: Props) {
         />
       </ListItemButton>
       <Divider sx={{ width: "100" }} />
-      <ListItemButton sx={{ backgroundColor: "rgba(0, 0, 0, 0.04)" }}>
-        <ListItemText primary={`Document01`} />
-        <ListItemText
-          sx={{
-            "& .css-10hburv-MuiTypography-root": {
-              marginRight: "2rem",
-            },
-          }}
-          // primary={`view link`}
-        >
-          <a href="http://#" target="_blank" rel="noopener noreferrer">
-            View
-          </a>
-        </ListItemText>
+      {visa?.map((item: any, index: any) => (
+        <div key={index}>
+          <ListItemButton sx={{ backgroundColor: "rgba(0, 0, 0, 0.04)" }}>
+            <ListItemText primary={item?.title} />
+            <ListItemText
+              sx={{
+                "& .css-10hburv-MuiTypography-root": {
+                  marginRight: "2rem",
+                },
+              }}
+              // primary={`view link`}
+            >
+              <a
+                href={item?.document_link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View
+              </a>
+            </ListItemText>
 
-        <ActionButton
-          anchorEl={anchorEl}
-          open={open}
-          handleClose={handleClose}
-          handleClick={handleClick}
-        />
-      </ListItemButton>
-      <Divider sx={{ width: "100" }} />
+            <ActionButton
+              anchorEl={anchorEl}
+              open={open}
+              handleClose={handleClose}
+              handleClick={handleClick}
+            />
+          </ListItemButton>
+          <Divider sx={{ width: "100" }} />
+        </div>
+      ))}
     </div>
   );
 }

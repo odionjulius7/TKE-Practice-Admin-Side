@@ -1,14 +1,52 @@
-import React from "react";
-import { NavBar, TopNavBar, UserTable } from "../../components/index";
+import React, { useState } from "react";
+import { NavBar, TopNavBar } from "../../components/index";
 import Grid from "@mui/material/Grid";
 import MainBody from "../../components/MainBody/MainBody";
-import { NotificationBadge } from "../../components/CommonComp";
+import { CommonButton, NotificationBadge } from "../../components/CommonComp";
 
-import { Box, Divider } from "@mui/material";
+import testImg from "../../img/test.jpeg";
+
+import {
+  Box,
+  Button,
+  CardActions,
+  CardMedia,
+  Divider,
+  Input,
+} from "@mui/material";
+import { useAppDispatch } from "../../Features/storeHook";
+
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { toast } from "react-toastify";
 
 type Props = {};
 
 const UploadBanner = (props: Props) => {
+  const [image, setImage] = useState<File | null>(null);
+  const dispatch = useAppDispatch();
+  const handleSubmit = async () => {
+    if (!image) {
+      return toast.info("fill image input");
+    }
+    const formData = new FormData();
+    if (image) {
+      formData.append("banner", image);
+    }
+    // "downlevelIteration": true,// add this to the typescript.json compilerOptions when looping through formData
+    console.log([...formData]);
+    try {
+      // await dispatch(createUserBanner({ formData, id: user?._id }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // console.log(user);
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setImage(e.target.files[0]);
+    }
+  };
   return (
     <Grid container>
       <Grid item xs={2}>
@@ -39,15 +77,50 @@ const UploadBanner = (props: Props) => {
         <Box
           sx={{
             width: "100%",
-            height: 300,
+            height: 500,
+            textAlign: "center",
             boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.25)",
-            // backgroundColor: "primary.dark",
-            // "&:hover": {
-            //   backgroundColor: "primary.main",
-            //   opacity: [0.9, 0.8, 0.7],
-            // },
           }}
-        ></Box>
+        >
+          <CardMedia sx={{ height: "70%" }} title="">
+            <img
+              style={{ height: "100%", width: "70%" }}
+              src={image ? URL.createObjectURL(image) : testImg}
+              // src={
+              //   image
+              //     ? URL.createObjectURL(image)
+              //     : user?.banner?.imgURL
+              //     ? user?.banner?.imgURL
+              //     : testImg
+              // }
+              alt=""
+            />
+          </CardMedia>
+
+          <CardActions sx={{ marginTop: "3rem" }}>
+            <Button size="small">
+              <CloudUploadIcon sx={{ margin: "0.4rem" }} />{" "}
+              <label htmlFor="img" style={{ cursor: "pointer" }}>
+                Upload Banner
+              </label>
+            </Button>
+
+            <Input
+              sx={{ display: "none" }}
+              id="img"
+              type="file"
+              name="image"
+              onChange={handleImageChange}
+            />
+            <CommonButton
+              children="Submit"
+              size="small"
+              variant="text"
+              color="info"
+              onClick={handleSubmit}
+            />
+          </CardActions>
+        </Box>
       </MainBody>
     </Grid>
   );

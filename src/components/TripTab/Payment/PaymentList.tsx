@@ -5,9 +5,12 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
-type Props = {};
+type Props = { payment: any };
 
-function PaymentList({}: Props) {
+function PaymentList({ payment }: Props) {
+  console.log(payment);
+
+  //
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -59,35 +62,44 @@ function PaymentList({}: Props) {
         />
       </ListItemButton>
       <Divider sx={{ width: "100" }} />
-      <ListItemButton sx={{ backgroundColor: "rgba(0, 0, 0, 0.04)" }}>
-        <ListItemText primary={`Document01`} />
-        <ListItemText
-          sx={{
-            "& .css-10hburv-MuiTypography-root": {
-              marginRight: "1rem",
-            },
-          }}
-          // primary={`view link`}
+      {payment?.map((item: any, index: any) => (
+        <ListItemButton
+          key={index}
+          sx={{ backgroundColor: "rgba(0, 0, 0, 0.04)" }}
         >
-          <a href="http://#" target="_blank" rel="noopener noreferrer">
-            View
-          </a>
-        </ListItemText>
-        <ListItemText
-          sx={{
-            "& .css-10hburv-MuiTypography-root": {
-              marginRight: "1rem",
-            },
-          }}
-          primary={`Not Signed`}
-        />
-        <ActionButton
-          anchorEl={anchorEl}
-          open={open}
-          handleClose={handleClose}
-          handleClick={handleClick}
-        />
-      </ListItemButton>
+          <ListItemText primary={item?.title} />
+          <ListItemText
+            sx={{
+              "& .css-10hburv-MuiTypography-root": {
+                marginRight: "1rem",
+              },
+            }}
+            // primary={`view link`}
+          >
+            <a
+              href={item?.invoice_link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View
+            </a>
+          </ListItemText>
+          <ListItemText
+            sx={{
+              "& .css-10hburv-MuiTypography-root": {
+                marginRight: "1rem",
+              },
+            }}
+            primary={item?.status}
+          />
+          <ActionButton
+            anchorEl={anchorEl}
+            open={open}
+            handleClose={handleClose}
+            handleClick={handleClick}
+          />
+        </ListItemButton>
+      ))}
       <Divider sx={{ width: "100" }} />
     </div>
   );

@@ -4,10 +4,24 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import moment from "moment";
 
-type Props = {};
+type Props = { flight: any };
+type Items = {
+  location:
+    | string
+    | number
+    | boolean
+    | React.ReactElement<any, string | React.JSXElementConstructor<any>>
+    | React.ReactFragment
+    | React.ReactPortal
+    | null
+    | undefined;
+  date: moment.MomentInput;
+};
 
-function FlightDetailsList({}: Props) {
+function FlightDetailsList({ flight }: Props) {
+  //
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -16,6 +30,9 @@ function FlightDetailsList({}: Props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  //
+  console.log(flight);
+
   return (
     <div>
       <ListItemButton>
@@ -50,42 +67,31 @@ function FlightDetailsList({}: Props) {
         />
       </ListItemButton>
       <Divider sx={{ width: "100" }} />
-      <ListItemButton sx={{ backgroundColor: "rgba(0, 0, 0, 0.04)" }}>
-        <ListItemText primary={`France`} />
-        <ListItemText
-          sx={{
-            "& .css-10hburv-MuiTypography-root": {
-              marginRight: "2rem",
-            },
-          }}
-          primary={`May 2, 2023`}
-        />
-        <ActionButton
-          anchorEl={anchorEl}
-          open={open}
-          handleClose={handleClose}
-          handleClick={handleClick}
-        />
-      </ListItemButton>
-      <Divider sx={{ width: "100" }} />
-      <ListItemButton sx={{ backgroundColor: "rgba(0, 0, 0, 0.04)" }}>
-        <ListItemText primary={`France`} />
-        <ListItemText
-          sx={{
-            "& .css-10hburv-MuiTypography-root": {
-              marginRight: "2rem",
-            },
-          }}
-          primary={`May 2, 2023`}
-        />
-        <ActionButton
-          anchorEl={anchorEl}
-          open={open}
-          handleClose={handleClose}
-          handleClick={handleClick}
-        />
-      </ListItemButton>
-      <Divider sx={{ width: "100" }} />
+      {flight?.map((item: Items, index: React.Key | null | undefined) => (
+        <>
+          <ListItemButton
+            key={index}
+            sx={{ backgroundColor: "rgba(0, 0, 0, 0.04)" }}
+          >
+            <ListItemText primary={item?.location} />
+            <ListItemText
+              sx={{
+                "& .css-10hburv-MuiTypography-root": {
+                  marginRight: "2rem",
+                },
+              }}
+              primary={moment(item?.date).format("ll")}
+            />
+            <ActionButton
+              anchorEl={anchorEl}
+              open={open}
+              handleClose={handleClose}
+              handleClick={handleClick}
+            />
+          </ListItemButton>
+          <Divider sx={{ width: "100" }} />
+        </>
+      ))}
     </div>
   );
 }
