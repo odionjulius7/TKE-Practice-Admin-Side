@@ -15,26 +15,6 @@ import { createTripAgreement } from "../../../Features/Trip/tripSlice";
 import { useAppDispatch, useAppSelector } from "../../../Features/storeHook";
 import { useState } from "react";
 
-// const blue = {
-//   100: "#DAECFF",
-//   200: "#80BFFF",
-//   400: "#3399FF",
-//   600: "#0072E5",
-// };
-
-// const grey = {
-//   50: "#F3F6F9",
-//   100: "#E7EBF0",
-//   200: "#E0E3E7",
-//   300: "#CDD2D7",
-//   400: "#B2BAC2",
-//   500: "#A0AAB4",
-//   600: "#6F7E8C",
-//   700: "#3E5060",
-//   800: "#2D3843",
-//   900: "#1A2027",
-// };
-
 type Props = { id: any };
 const AgreementForm = ({ id }: Props) => {
   const tripStatus = useAppSelector((state) => state.trips.status);
@@ -67,7 +47,7 @@ const AgreementForm = ({ id }: Props) => {
       // setTitle("");
     }
   };
-  console.log(id);
+  // console.log(id);
   const handleChange = (event: SelectChangeEvent) => {
     setStatus(event.target.value);
   };

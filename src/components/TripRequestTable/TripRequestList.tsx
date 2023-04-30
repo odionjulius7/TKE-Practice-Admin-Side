@@ -82,6 +82,7 @@ const TripRequestList = (props: Props) => {
       }
     }
   };
+  //
   const handleAddUser = async () => {
     navigate(`/user-trip-details/${singleTripReq[0]?._id.toString()}`);
   };

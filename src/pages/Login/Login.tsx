@@ -35,10 +35,6 @@ const Login = (props: Props) => {
 
   // loading back dop circle
   const [openModal, setOpenModal] = React.useState(true);
-  // const handleToggle1 = () => {
-  //   setOpenModal(!openModal);
-  // };
-  // loading back dop circle
 
   const handleLogin = async () => {
     // (e: FormEvent<HTMLFormElement>)

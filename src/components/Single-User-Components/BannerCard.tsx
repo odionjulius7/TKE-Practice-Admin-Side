@@ -38,7 +38,7 @@ const BannerCard = ({ user }: Props) => {
     }
   };
 
-  console.log(user);
+  // console.log(user);
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setImage(e.target.files[0]);

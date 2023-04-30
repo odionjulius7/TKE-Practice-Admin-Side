@@ -8,6 +8,8 @@ interface TripRequestState {
   singleTripReq: TripRequest[]; // i had to make it an array of TripRequest  cos of some unknown errors
   loading: boolean;
   error: string | null;
+  requestCount: any;
+  tripReqsByMonth: any;
 }
 
 const initialState: TripRequestState = {
@@ -15,6 +17,8 @@ const initialState: TripRequestState = {
   singleTripReq: [], // i had to make it an array cos of some unknown errors
   loading: false,
   error: null,
+  requestCount: null,
+  tripReqsByMonth: null,
 };
 
 export const fetchTripRequests = createAsyncThunk(
@@ -30,6 +34,7 @@ export const fetchTripRequests = createAsyncThunk(
         }
       );
       // toast.success("Trip request fetched successfully!");
+      // console.log(response.data);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("Unable to fetch tip requests");
@@ -128,6 +133,8 @@ export const tipRequestsSlice = createSlice({
       .addCase(fetchTripRequests.fulfilled, (state, action) => {
         state.loading = false;
         state.tripRequests = action.payload.tripRequests.reverse();
+        state.tripReqsByMonth = action.payload.tripReqsByMonth;
+        state.requestCount = action.payload.count;
       })
       .addCase(fetchTripRequests.rejected, (state, action) => {
         state.loading = false;

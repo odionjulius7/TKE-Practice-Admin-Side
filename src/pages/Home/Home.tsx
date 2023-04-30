@@ -5,18 +5,23 @@ import MainBody from "../../components/MainBody/MainBody";
 import { NotificationBadge, SnackBar } from "../../components/CommonComp";
 import { Box, Divider } from "@mui/material";
 import TripRequestTable from "../../components/TripRequestTable/TripRequestTable";
-import { useAppDispatch } from "../../Features/storeHook";
+import { useAppDispatch, useAppSelector } from "../../Features/storeHook";
 import { fetchTripRequests } from "../../Features/tripRequest/tripRequestSlice";
+import { fetchAllTrip } from "../../Features/Trip/tripSlice";
+import TripReqsChart from "../../components/Charts/TripReqsChart";
 
 interface Props {
   // Define props for your component here
 }
 
 const Home: React.FC<Props> = (props) => {
+  const { requestCount } = useAppSelector((state) => state.tripRequests);
+  const { tripCount } = useAppSelector((state) => state.trips);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchTripRequests());
+    dispatch(fetchAllTrip());
   }, []);
   // snackBar
   const [open, setOpen] = useState<boolean>(true);
@@ -45,10 +50,13 @@ const Home: React.FC<Props> = (props) => {
 
           <Grid item xs={3}>
             <NotificationBadge
-              badgeContent={2}
+              badgeContent={requestCount}
               text="Total Number of Trip Request"
             />
-            <NotificationBadge badgeContent={3} text="Total Number of Trip" />
+            <NotificationBadge
+              badgeContent={tripCount}
+              text="Total Number of Trip"
+            />
           </Grid>
         </TopNavBar>
         <Divider sx={{ margin: "2rem 0" }} />
@@ -59,14 +67,9 @@ const Home: React.FC<Props> = (props) => {
                 width: "100%",
                 height: 300,
                 boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.25)",
-                // backgroundColor: "primary.dark",
-                // "&:hover": {
-                //   backgroundColor: "primary.main",
-                //   opacity: [0.9, 0.8, 0.7],
-                // },
               }}
             >
-              Trip Request Graph
+              <TripReqsChart />
             </Box>
           </Grid>
           <Grid item xs={6}>

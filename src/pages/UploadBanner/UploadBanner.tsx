@@ -14,15 +14,19 @@ import {
   Divider,
   Input,
 } from "@mui/material";
-import { useAppDispatch } from "../../Features/storeHook";
+import { useAppDispatch, useAppSelector } from "../../Features/storeHook";
 
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { toast } from "react-toastify";
+import { uploadGeneralBanner } from "../../Features/Banner/generalBanner";
 
 type Props = {};
 
 const UploadBanner = (props: Props) => {
   const [image, setImage] = useState<File | null>(null);
+  const { tripCount } = useAppSelector((state) => state.trips);
+  const { requestCount } = useAppSelector((state) => state.tripRequests);
+  const { isLoading, datas } = useAppSelector((state) => state.generalBanner);
   const dispatch = useAppDispatch();
   const handleSubmit = async () => {
     if (!image) {
@@ -30,12 +34,12 @@ const UploadBanner = (props: Props) => {
     }
     const formData = new FormData();
     if (image) {
-      formData.append("banner", image);
+      formData.append("generalBanner", image);
     }
     // "downlevelIteration": true,// add this to the typescript.json compilerOptions when looping through formData
     console.log([...formData]);
     try {
-      // await dispatch(createUserBanner({ formData, id: user?._id }));
+      await dispatch(uploadGeneralBanner({ formData }));
     } catch (error) {
       console.log(error);
     }
@@ -66,10 +70,13 @@ const UploadBanner = (props: Props) => {
 
           <Grid item xs={3}>
             <NotificationBadge
-              badgeContent={2}
+              badgeContent={requestCount}
               text="Total Number of Trip Request"
             />
-            <NotificationBadge badgeContent={3} text="Total Number of Trip" />
+            <NotificationBadge
+              badgeContent={tripCount}
+              text="Total Number of Trip"
+            />
           </Grid>
         </TopNavBar>
 
@@ -85,7 +92,14 @@ const UploadBanner = (props: Props) => {
           <CardMedia sx={{ height: "70%" }} title="">
             <img
               style={{ height: "100%", width: "70%" }}
-              src={image ? URL.createObjectURL(image) : testImg}
+              src={
+                image
+                  ? URL.createObjectURL(image)
+                  : datas?.imgURL
+                  ? datas?.imgURL
+                  : testImg
+              }
+              // src={image ? URL.createObjectURL(image) : testImg}
               // src={
               //   image
               //     ? URL.createObjectURL(image)
@@ -101,7 +115,7 @@ const UploadBanner = (props: Props) => {
             <Button size="small">
               <CloudUploadIcon sx={{ margin: "0.4rem" }} />{" "}
               <label htmlFor="img" style={{ cursor: "pointer" }}>
-                Upload Banner
+                {isLoading ? "uploading..." : "Upload Banner"}
               </label>
             </Button>
 

@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^37.1.0",
+    "@ckeditor/ckeditor5-react": "^6.0.0",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.11",
@@ -26,6 +28,7 @@
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
     "react-toastify": "^9.1.2",
+    "recharts": "^2.5.0",
     "redux": "^4.2.1",
     "redux-persist": "^6.0.0",
     "typescript": "^4.9.5",

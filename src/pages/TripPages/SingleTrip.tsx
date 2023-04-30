@@ -6,10 +6,12 @@ import { NotificationBadge } from "../../components/CommonComp";
 
 import { Divider } from "@mui/material";
 import { TabMenu } from "../../components/TripTab";
+import { useAppSelector } from "../../Features/storeHook";
 
 type Props = {};
 
 const SingleTrip = (props: Props) => {
+  const { tripCount } = useAppSelector((state) => state.trips);
   return (
     <Grid container>
       <Grid item xs={2}>
@@ -29,10 +31,13 @@ const SingleTrip = (props: Props) => {
 
           <Grid item xs={3}>
             <NotificationBadge
-              badgeContent={2}
+              badgeContent={0}
               text="Total Number of Trip Request"
             />
-            <NotificationBadge badgeContent={3} text="Total Number of Trip" />
+            <NotificationBadge
+              badgeContent={tripCount}
+              text="Total Number of Trip"
+            />
           </Grid>
         </TopNavBar>
 

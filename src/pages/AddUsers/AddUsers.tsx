@@ -21,6 +21,8 @@ type Props = {};
 const AddUsers = (props: Props) => {
   const { token } = useAppSelector((state) => state.auth);
   const { loadingUser } = useAppSelector((state) => state.user);
+  const { requestCount } = useAppSelector((state) => state.tripRequests);
+  const { tripCount } = useAppSelector((state) => state.trips);
 
   const [email, setEmail] = useState("");
   const [lastName, setLastName] = useState("");
@@ -99,10 +101,13 @@ const AddUsers = (props: Props) => {
 
           <Grid item xs={3}>
             <NotificationBadge
-              badgeContent={2}
+              badgeContent={requestCount}
               text="Total Number of Trip Request"
             />
-            <NotificationBadge badgeContent={3} text="Total Number of Trip" />
+            <NotificationBadge
+              badgeContent={tripCount}
+              text="Total Number of Trip"
+            />
           </Grid>
         </TopNavBar>
 

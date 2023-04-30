@@ -6,10 +6,13 @@ import { NotificationBadge } from "../../components/CommonComp";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import { Box, Divider } from "@mui/material";
+import { useAppSelector } from "../../Features/storeHook";
 
 type Props = {};
 
 const TripQuest = (props: Props) => {
+  const { requestCount } = useAppSelector((state) => state.tripRequests);
+  const { tripCount } = useAppSelector((state) => state.trips);
   return (
     <Grid container>
       <Grid item xs={2}>
@@ -26,10 +29,13 @@ const TripQuest = (props: Props) => {
 
           <Grid item xs={3}>
             <NotificationBadge
-              badgeContent={2}
+              badgeContent={requestCount}
               text="Total Number of Trip Request"
             />
-            <NotificationBadge badgeContent={3} text="Total Number of Trip" />
+            <NotificationBadge
+              badgeContent={tripCount}
+              text="Total Number of Trip"
+            />
           </Grid>
         </TopNavBar>
 

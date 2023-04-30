@@ -1,13 +1,10 @@
 import { Divider, ListItemButton, ListItemText } from "@mui/material";
 import React from "react";
-import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import BtnPayment from "../../TripButtons/BtnPament";
 
-type Props = { payment: any };
+type Props = { payment: any; id: any };
 
-function PaymentList({ payment }: Props) {
+function PaymentList({ payment, id }: Props) {
   console.log(payment);
 
   //
@@ -65,7 +62,10 @@ function PaymentList({ payment }: Props) {
       {payment?.map((item: any, index: any) => (
         <ListItemButton
           key={index}
-          sx={{ backgroundColor: "rgba(0, 0, 0, 0.04)" }}
+          sx={{
+            backgroundColor: "rgba(0, 0, 0, 0.04)",
+            marginBottom: "1.5rem",
+          }}
         >
           <ListItemText primary={item?.title} />
           <ListItemText
@@ -92,63 +92,12 @@ function PaymentList({ payment }: Props) {
             }}
             primary={item?.status}
           />
-          <ActionButton
-            anchorEl={anchorEl}
-            open={open}
-            handleClose={handleClose}
-            handleClick={handleClick}
-          />
+          <BtnPayment item={item} id={id} />
         </ListItemButton>
       ))}
       <Divider sx={{ width: "100" }} />
     </div>
   );
 }
-
-type ButtonProps = {
-  anchorEl: HTMLElement | null;
-  open: boolean;
-  handleClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  handleClose: any;
-};
-
-const ActionButton = ({
-  anchorEl,
-  open,
-  handleClick,
-  handleClose,
-}: ButtonProps) => {
-  return (
-    <div>
-      <Button
-        id="basic-button"
-        aria-controls={open ? "basic-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
-        sx={{
-          margin: "0 1rem 0 0",
-          padding: "10px",
-        }}
-        variant="outlined"
-        endIcon={<ArrowDropDownIcon />}
-      >
-        Action
-      </Button>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        <MenuItem onClick={handleClose}>Edit</MenuItem>
-        <MenuItem onClick={handleClose}>Dele</MenuItem>
-      </Menu>
-    </div>
-  );
-};
 
 export default PaymentList;

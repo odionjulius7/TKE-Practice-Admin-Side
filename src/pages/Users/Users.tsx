@@ -11,6 +11,8 @@ import { fetchUsers } from "../../Features/users/usersSlice";
 type Props = {};
 
 const Users = (props: Props) => {
+  const { tripCount } = useAppSelector((state) => state.trips);
+  const { requestCount } = useAppSelector((state) => state.tripRequests);
   const token = useAppSelector((state) => state.auth.token);
 
   const dispatch = useAppDispatch();
@@ -47,10 +49,13 @@ const Users = (props: Props) => {
 
           <Grid item xs={3}>
             <NotificationBadge
-              badgeContent={2}
+              badgeContent={requestCount}
               text="Total Number of Trip Request"
             />
-            <NotificationBadge badgeContent={3} text="Total Number of Trip" />
+            <NotificationBadge
+              badgeContent={tripCount}
+              text="Total Number of Trip"
+            />
           </Grid>
         </TopNavBar>
 

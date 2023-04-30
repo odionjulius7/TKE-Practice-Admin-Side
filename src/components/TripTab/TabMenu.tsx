@@ -24,6 +24,7 @@ import {
   VisaForm,
   VisaList,
 } from ".";
+import ItineraryTab from "./ItineraryTab";
 
 const blue = {
   50: "#F0F7FF",
@@ -88,7 +89,7 @@ const Tab = styled(TabUnstyled)`
 
 const TabPanel = styled(TabPanelUnstyled)(
   ({ theme }) => `
-  width: 100%;
+  width: 97%;
   font-family: IBM Plex Sans, sans-serif;
   font-size: 0.875rem;
   padding: 20px 12px;
@@ -190,7 +191,10 @@ const TabMenu = (props: Props) => {
               padding: "2rem 0",
             }}
           >
-            <FlightDetailsList flight={singleTrip?.flightDetails} />
+            <FlightDetailsList
+              flight={singleTrip?.flightDetails}
+              id={singleTrip?._id}
+            />
           </Box>
         </div>
       </TabPanel>
@@ -214,7 +218,10 @@ const TabMenu = (props: Props) => {
               padding: "2rem 0",
             }}
           >
-            <AgreementList agreement={singleTrip?.agreements} />
+            <AgreementList
+              agreement={singleTrip?.agreements}
+              id={singleTrip?._id}
+            />
           </Box>
         </div>
       </TabPanel>
@@ -238,7 +245,7 @@ const TabMenu = (props: Props) => {
               padding: "2rem 0",
             }}
           >
-            <PaymentList payment={singleTrip?.payment} />
+            <PaymentList payment={singleTrip?.payment} id={singleTrip?._id} />
           </Box>
         </div>
       </TabPanel>
@@ -264,6 +271,7 @@ const TabMenu = (props: Props) => {
           >
             <TravelConList
               travelConfirmation={singleTrip?.travelConfirmation}
+              id={singleTrip?._id}
             />
           </Box>
         </div>
@@ -288,47 +296,32 @@ const TabMenu = (props: Props) => {
               padding: "2rem",
             }}
           >
-            <VisaList visa={singleTrip?.visa} />
+            <VisaList visa={singleTrip?.visa} id={singleTrip?._id} />
           </Box>
         </div>
       </TabPanel>
       <TabPanel value={6}>
         <Box
           sx={{
-            width: "100%",
-            height: 300,
+            boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.25)",
+            padding: "2rem",
+            minHeight: "200px",
+          }}
+        >
+          <ItineraryTab id={singleTrip?._id} />
+        </Box>
+      </TabPanel>
+      <TabPanel value={7}>
+        <Box
+          sx={{
             boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.25)",
             padding: "2rem",
           }}
         >
-          13
+          7
         </Box>
       </TabPanel>
-      <TabPanel value={7}>
-        <div style={{ display: "flex", width: "100%", gap: "2rem" }}>
-          <Box
-            sx={{
-              width: "50%",
-              height: 300,
-              boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.25)",
-              padding: "2rem",
-            }}
-          >
-            14
-          </Box>
-          <Box
-            sx={{
-              width: "50%",
-              height: 300,
-              boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.25)",
-              padding: "2rem",
-            }}
-          >
-            15
-          </Box>
-        </div>
-      </TabPanel>
-      <TabPanel value={8}>
+      {/* <TabPanel value={8}>
         <div style={{ display: "flex", width: "100%", gap: "2rem" }}>
           <Box
             sx={{
@@ -355,7 +348,7 @@ const TabMenu = (props: Props) => {
             17
           </Box>
         </div>
-      </TabPanel>
+      </TabPanel> */}
     </TabsUnstyled>
   );
 };

@@ -13,7 +13,10 @@ import { fetchSingleTripReq } from "../../Features/tripRequest/tripRequestSlice"
 type Props = {};
 
 const SingleRequest = (props: Props) => {
-  const { loading } = useAppSelector((state) => state.tripRequests);
+  const { loading, requestCount } = useAppSelector(
+    (state) => state.tripRequests
+  );
+  const { tripCount } = useAppSelector((state) => state.trips);
   const token = useAppSelector((state) => state.auth.token);
   const [open, setOpen] = useState<boolean>(true);
   let { id } = useParams(); // accept only type of string
@@ -79,10 +82,13 @@ const SingleRequest = (props: Props) => {
 
           <Grid item xs={3}>
             <NotificationBadge
-              badgeContent={2}
+              badgeContent={requestCount}
               text="Total Number of Trip Request"
             />
-            <NotificationBadge badgeContent={3} text="Total Number of Trip" />
+            <NotificationBadge
+              badgeContent={tripCount}
+              text="Total Number of Trip"
+            />
           </Grid>
         </TopNavBar>
 

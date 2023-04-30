@@ -3,6 +3,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { authReducer } from "./auth/authSlice";
 import userSlice from "./users/usersSlice";
+import bannerSlice from "./Banner/generalBanner";
 import tipRequestsSlice from "./tripRequest/tripRequestSlice";
 import tripsSlice from "./Trip/tripSlice";
 import { combineReducers } from "redux";
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   user: userSlice,
   tripRequests: tipRequestsSlice,
   trips: tripsSlice,
+  generalBanner: bannerSlice,
 });
 
 // Define the persist config
