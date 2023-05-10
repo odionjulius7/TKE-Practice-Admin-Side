@@ -25,8 +25,6 @@ const SingleRequest = (props: Props) => {
 
   useEffect(() => {
     if (id && token) {
-      // Make sure the token is available before making the request
-      // convert the id to string if it wasn't a string before
       id = id as string;
       const ids: { token: string; id: string } = { token, id };
       dispatch(fetchSingleTripReq(ids));

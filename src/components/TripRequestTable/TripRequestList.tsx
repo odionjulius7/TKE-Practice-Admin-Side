@@ -86,8 +86,8 @@ const TripRequestList = (props: Props) => {
   const handleAddUser = async () => {
     navigate(`/user-trip-details/${singleTripReq[0]?._id.toString()}`);
   };
-  //
-  // console.log(singleTripReq[0]);
+
+  // console.log(singleTripReq);
 
   const [open, setOpen] = React.useState(false);
   const [openModal, setOpenModal] = React.useState(loading);
@@ -204,7 +204,6 @@ const TripRequestList = (props: Props) => {
                     onClick={() => {
                       handleRequestDelete(singleTripReq[0]?._id.toString());
                       console.log("delete request");
-                      // handleToggle1();
                     }}
                   >
                     <DeleteForeverIcon />
