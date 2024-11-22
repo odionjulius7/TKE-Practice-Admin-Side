@@ -23,7 +23,8 @@ export const uploadGeneralBanner = createAsyncThunk(
   async ({ formData }: any, thunkAPI) => {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_ENDPOINT}/general/banner`,
+        `https://tke-api.onrender.com/api/v1/general/banner`,
+        // `https://tke-api.onrender.com/api/v1/general/banner`,
         formData,
         {
           headers: {

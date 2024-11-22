@@ -9,7 +9,7 @@ export const createUser = createAsyncThunk(
   async ({ user, token }: any, thunkAPI) => {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_ENDPOINT}/auth/register/user`,
+        `https://tke-api.onrender.com/api/v1/auth/register/user`,
         user,
         {
           headers: {
@@ -43,7 +43,7 @@ export const fetchUsers = createAsyncThunk(
   async (token: string, thunkAPI) => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_ENDPOINT}/auth/users`,
+        `https://tke-api.onrender.com/api/v1/auth/users`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -65,7 +65,7 @@ export const fetchSingleUser = createAsyncThunk(
   async (ids: { token: string; email: string }, thunkAPI) => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_ENDPOINT}/auth/user/${ids.email}`,
+        `https://tke-api.onrender.com/api/v1/auth/user/${ids.email}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -90,7 +90,7 @@ export const createUserBanner = createAsyncThunk(
   async ({ formData, id }: any, thunkAPI) => {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_ENDPOINT}/auth/users/${id}`,
+        `https://tke-api.onrender.com/api/v1/auth/users/${id}`,
         formData,
         {
           headers: {

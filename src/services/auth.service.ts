@@ -8,7 +8,8 @@ import { NewUser } from "../models/NewUser";
 //the register() in our authSlice pass in the user input details from the register component
 const register = async (newUser: NewUser): Promise<DisplayUser | null> => {
   const response = await axios.post(
-    `${process.env.REACT_APP_BASE_API}/auth/register`,
+    // `${process.env.REACT_APP_BASE_API}/auth/register`,
+    `https://tke-api.onrender.com/api/v1/auth/register`,
     newUser
   );
 
@@ -18,7 +19,8 @@ const register = async (newUser: NewUser): Promise<DisplayUser | null> => {
 // Same
 const login = async (user: LoginUser) => {
   const response = await axios.post(
-    `${process.env.REACT_APP_API_ENDPOINT}/auth/login/user`,
+    `https://tke-api.onrender.com/api/v1/auth/login/user`,
+    // `${process.env.REACT_APP_API_ENDPOINT}/auth/login/user`,
     user,
     {
       headers: {

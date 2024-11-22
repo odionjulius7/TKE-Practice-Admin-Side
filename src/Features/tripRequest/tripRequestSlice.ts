@@ -26,7 +26,7 @@ export const fetchTripRequests = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_ENDPOINT}/trip/request`,
+        `https://tke-api.onrender.com/api/v1/trip/request`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -49,7 +49,7 @@ export const fetchSingleTripReq = createAsyncThunk(
   async (ids: { id: string; token: string }, thunkAPI) => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_ENDPOINT}/trip/request/${ids.id}`,
+        `https://tke-api.onrender.com/api/v1/trip/request/${ids.id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -72,7 +72,7 @@ export const deleteTripRequest = createAsyncThunk(
   async (ids: { id: string; token: string }, thunkAPI) => {
     try {
       await axios.delete(
-        `${process.env.REACT_APP_API_ENDPOINT}/trip/request/${ids.id}`,
+        `https://tke-api.onrender.com/api/v1/trip/request/${ids.id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -98,7 +98,7 @@ export const markAsSeenTripRequest = createAsyncThunk(
   async (ids: { id: string; token: string }, thunkAPI) => {
     try {
       await axios.patch(
-        `${process.env.REACT_APP_API_ENDPOINT}/trip/request/${ids.id}`,
+        `https://tke-api.onrender.com/api/v1/trip/request/${ids.id}`,
         {
           headers: {
             "Content-Type": "application/json",

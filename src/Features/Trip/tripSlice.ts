@@ -32,7 +32,7 @@ export const createTrip = createAsyncThunk(
   async (ids: { _id: string; token1: string }, thunkAPI) => {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_ENDPOINT}/trip/${ids._id}`,
+        `https://tke-api.onrender.com/api/v1/trip/${ids._id}`,
         {},
         {
           headers: {
@@ -55,7 +55,7 @@ export const fetchAllTrip = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_ENDPOINT}/trip`,
+        `https://tke-api.onrender.com/api/v1/trip`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -76,7 +76,7 @@ export const fetchAUsersTrip = createAsyncThunk(
   async (ids: { _id: string; token: string }, thunkAPI) => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_ENDPOINT}/trip/user/${ids._id}`,
+        `https://tke-api.onrender.com/api/v1/trip/user/${ids._id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -97,7 +97,7 @@ export const fetchSingleTrip = createAsyncThunk(
   async (ids: { token: string; id: string }, thunkAPI) => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_ENDPOINT}/trip/${ids.id}`,
+        `https://tke-api.onrender.com/api/v1/trip/${ids.id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -121,7 +121,7 @@ export const createTripOverview = createAsyncThunk(
   async ({ formData, id }: any, thunkAPI) => {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_ENDPOINT}/trip/${id}/overview`,
+        `https://tke-api.onrender.com/api/v1/trip/${id}/overview`,
         formData,
         {
           headers: {
@@ -146,7 +146,7 @@ export const createTripFlightDetails = createAsyncThunk(
   async ({ flightDetails, id }: any, thunkAPI) => {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_ENDPOINT}/trip/${id}/flightDetails`,
+        `https://tke-api.onrender.com/api/v1/trip/${id}/flightDetails`,
         { ...flightDetails },
         {
           headers: {
@@ -169,7 +169,7 @@ export const EditFlightDetails = createAsyncThunk(
   async ({ flightDetails, id, flightDetailsId }: any, thunkAPI) => {
     try {
       const response = await axios.patch(
-        `${process.env.REACT_APP_API_ENDPOINT}/trip/${id}/flightDetails/${flightDetailsId}`,
+        `https://tke-api.onrender.com/api/v1/trip/${id}/flightDetails/${flightDetailsId}`,
         { ...flightDetails },
         {
           headers: {
@@ -196,7 +196,7 @@ export const createTripAgreement = createAsyncThunk(
   async ({ agreement, id }: any, thunkAPI) => {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_ENDPOINT}/trip/${id}/agreement`,
+        `https://tke-api.onrender.com/api/v1/trip/${id}/agreement`,
         { ...agreement },
         {
           headers: {
@@ -219,7 +219,7 @@ export const editAgreement = createAsyncThunk(
   async ({ agreement, id, flightDetailsId }: any, thunkAPI) => {
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_API_ENDPOINT}/trip/${id}/agreement/${flightDetailsId}`,
+        `https://tke-api.onrender.com/api/v1/trip/${id}/agreement/${flightDetailsId}`,
         { ...agreement },
         {
           headers: {
@@ -245,7 +245,7 @@ export const createTripPayment = createAsyncThunk(
   async ({ payment, id }: any, thunkAPI) => {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_ENDPOINT}/trip/${id}/payment`,
+        `https://tke-api.onrender.com/api/v1/trip/${id}/payment`,
         { ...payment },
         {
           headers: {
@@ -268,7 +268,7 @@ export const editPayment = createAsyncThunk(
   async ({ payment, id, flightDetailsId }: any, thunkAPI) => {
     try {
       const response = await axios.patch(
-        `${process.env.REACT_APP_API_ENDPOINT}/trip/${id}/payment/${flightDetailsId}`,
+        `https://tke-api.onrender.com/api/v1/trip/${id}/payment/${flightDetailsId}`,
         { ...payment },
         {
           headers: {
@@ -294,7 +294,7 @@ export const createTripConfirmation = createAsyncThunk(
   async ({ tripConfirm, id }: any, thunkAPI) => {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_ENDPOINT}/trip/${id}/confirmation`,
+        `https://tke-api.onrender.com/api/v1/trip/${id}/confirmation`,
         { ...tripConfirm },
         {
           headers: {
@@ -317,7 +317,7 @@ export const editConfirmation = createAsyncThunk(
   async ({ tripConfirm, id, flightDetailsId }: any, thunkAPI) => {
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_API_ENDPOINT}/trip/${id}/confirmation/${flightDetailsId}`,
+        `https://tke-api.onrender.com/api/v1/trip/${id}/confirmation/${flightDetailsId}`,
         { ...tripConfirm },
         {
           headers: {
@@ -343,7 +343,7 @@ export const createTripVisa = createAsyncThunk(
   async ({ visa, id }: any, thunkAPI) => {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_ENDPOINT}/trip/${id}/visa`,
+        `https://tke-api.onrender.com/api/v1/trip/${id}/visa`,
         { ...visa },
         {
           headers: {
@@ -366,7 +366,7 @@ export const editVisa = createAsyncThunk(
   async ({ visa, id, flightDetailsId }: any, thunkAPI) => {
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_API_ENDPOINT}/trip/${id}/visa/${flightDetailsId}`,
+        `https://tke-api.onrender.com/api/v1/trip/${id}/visa/${flightDetailsId}`,
         { ...visa },
         {
           headers: {
@@ -393,7 +393,7 @@ export const createTripItinerary = createAsyncThunk(
   async ({ data, id }: any, thunkAPI) => {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_ENDPOINT}/trip/${id}/itinerary`,
+        `https://tke-api.onrender.com/api/v1/trip/${id}/itinerary`,
         { data },
         {
           headers: {
