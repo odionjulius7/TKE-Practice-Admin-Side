@@ -35,12 +35,12 @@ const UserDetailsCard = ({ user }: Props) => {
             Email: <span style={{ fontSize: "1.2rem" }}> {user?.email}</span>
           </Typography>
         </Stack>
-        <Stack>
+        {/* <Stack>
           <Typography component="h6" variant="h6">
             Phone Number:{" "}
             <span style={{ fontSize: "1.2rem" }}> {user?.phoneNumber}</span>
           </Typography>
-        </Stack>
+        </Stack> */}
         <CommonButton
           children={<Typography variant="h6">Edit User</Typography>}
           size="small"

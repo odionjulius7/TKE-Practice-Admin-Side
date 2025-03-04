@@ -11,6 +11,6 @@ export interface User {
   dateOfBirth?: string;
   postCode: string;
   role: string;
-  phoneNumber: string;
+  // phoneNumber: string;
   banner?: any;
 }

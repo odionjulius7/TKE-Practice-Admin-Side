@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { GridCellParams, GridColDef } from "@mui/x-data-grid";
-import { NavigateFunction, useNavigate } from "react-router-dom";
+import { GridColDef, GridRowParams } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
 import DataTable from "../DataTable/DataTable";
-import { Button } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useAppSelector } from "../../Features/storeHook";
 
-type Props = {};
-
-const tableStylesx = { height: 450, width: "100%" };
-interface Props1 {
+interface TripRequestRow {
   _id: string | number;
-  id?: number;
+  id: number;
   createdAt?: string;
   status?: string;
   email?: string;
@@ -18,93 +15,44 @@ interface Props1 {
   tripType?: string;
   userType?: string;
 }
-const TripRequestTable = (props: Props) => {
-  // const [users, setUsers] = useState<[]>([]);
-  const [user1, setUser1] = useState<Props1[]>([]);
+
+const TripRequestTable: React.FC = () => {
+  const [rows, setRows] = useState<TripRequestRow[]>([]);
   const tripRequests = useAppSelector(
     (state) => state.tripRequests.tripRequests
   );
-  //
-
-  function CustomLinkCell({ value }: { value: number }) {
-    const navigate: NavigateFunction = useNavigate();
-
-    function handleClick() {
-      const to = `/request/${value}`;
-      navigate(to);
-      // history.push(`/details/${value}`); // Replace with the desired URL path
-    }
-
-    return <Button onClick={handleClick}>View Trip</Button>;
-  }
+  const navigate = useNavigate();
 
   const columns: GridColDef[] = [
     {
-      field: "id", // the key to display from users array {}
-      headerName: "ID", // the name of that header
+      field: "id",
+      headerName: "ID",
       width: 90,
+      headerAlign: "center",
+      align: "center",
     },
+    { field: "name", headerName: "Trip Name", width: 150, editable: true },
+    { field: "email", headerName: "Email", width: 200, editable: true },
+    { field: "tripType", headerName: "Trip Type", width: 150, editable: true },
+    { field: "userType", headerName: "User Type", width: 150, editable: true },
+    { field: "status", headerName: "Status", width: 120, editable: true },
     {
-      field: "name", // the key to display in users array {}
-      headerName: "Trip Name", // the name of that header
-      width: 120,
+      field: "createdAt",
+      headerName: "Request Time",
+      width: 200,
       editable: true,
-      // renderCell: (params) => <CustomLinkCell value={params.row.id} />,
-    },
-    {
-      field: "email", // the key to display in users array {}
-      headerName: "Email", // the name of that header
-      width: 150,
-      editable: true,
-    },
-    {
-      field: "tripType", // the key to display in users array {}
-      headerName: "Trip Type", // the name of that header
-      width: 150,
-      editable: true,
-    },
-    {
-      field: "userType", // the key to display in users array {}
-      headerName: "User Type", // the name of that header
-      width: 150,
-      editable: true,
-    },
-    {
-      field: "status", // the key to display in users array {}
-      headerName: "Status", // the name of that header
-      width: 80,
-      editable: true,
-    },
-    {
-      field: "createdAt", // the key to display in users array {}
-      headerName: "Requeest Time", // the name of that header
-      width: 150,
-      editable: true,
-    },
-    {
-      field: "detailsLink",
-      headerName: "Details",
-      width: 150,
-      renderCell: (params: GridCellParams) => (
-        <CustomLinkCell value={params.row._id as number} />
-      ),
+      valueFormatter: (params) =>
+        params.value
+          ? new Date(params.value as string).toLocaleDateString()
+          : "Unknown",
     },
   ];
 
-  // useEffect(() => {
-  //   fetch("https://jsonplaceholder.typicode.com/users")
-  //     .then((response) => response.json())
-  //     .then((json) => setUsers(json));
-  // }, []);
-
-  //
   useEffect(() => {
     if (Array.isArray(tripRequests)) {
-      const newTripRequests = tripRequests.filter(
-        (trip) => trip.requestStatus === "new"
-      );
-      const props = newTripRequests.map((trip, index) => {
-        return {
+      const newTripRequests = tripRequests
+        .filter((trip) => trip.requestStatus === "new")
+        .map((trip, index) => ({
           _id: trip._id,
           id: index + 1,
           createdAt: trip.createdAt,
@@ -113,19 +61,81 @@ const TripRequestTable = (props: Props) => {
           name: trip.user.firstName,
           tripType: trip.tripType,
           userType: trip.user.userType,
-        };
-      });
-      setUser1([...props]);
+        }));
+      setRows(newTripRequests);
     }
   }, [tripRequests]);
 
+  const handleRowClick = (params: GridRowParams) => {
+    navigate(`/request/${params.row._id}`);
+  };
+
   return (
-    <DataTable
-      rows={user1}
-      columns={columns}
-      loading={!user1.length} // if no lenght loading runs
-      sx={tableStylesx}
-    />
+    <Box
+      sx={{
+        p: 3,
+        bgcolor: "#ffffff",
+        borderRadius: "16px",
+        boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+        maxWidth: "1200px",
+        mx: "auto",
+      }}
+    >
+      <Typography
+        variant="h4"
+        sx={{
+          mb: 3,
+          color: "#424242",
+          fontWeight: 600,
+          fontFamily: "'Poppins', sans-serif",
+          textAlign: "center",
+        }}
+      >
+        Trip Requests
+      </Typography>
+      <Box
+        sx={{
+          "& .MuiDataGrid-root": {
+            border: "none",
+            borderRadius: "12px",
+            bgcolor: "#fafafa",
+            "& .MuiDataGrid-cell": {
+              color: "#424242",
+              fontFamily: "'Poppins', sans-serif",
+              "&:hover": { bgcolor: "#f5f5f5" },
+            },
+            "& .MuiDataGrid-row": {
+              "&:hover": {
+                bgcolor: "#e0f7fa",
+                cursor: "pointer",
+                transition: "background-color 0.2s ease",
+              },
+            },
+            "& .MuiDataGrid-columnHeaders": {
+              bgcolor: "#5e35b1",
+              color: "#ffffff",
+              fontFamily: "'Poppins', sans-serif",
+              "& .MuiDataGrid-columnSeparator": { display: "none" },
+            },
+            "& .MuiDataGrid-footerContainer": {
+              bgcolor: "#fafafa",
+              borderTop: "1px solid #e0e0e0",
+            },
+          },
+        }}
+      >
+        <DataTable
+          rows={rows}
+          columns={columns}
+          loading={!rows.length}
+          sx={{ height: 400, width: "100%" }}
+          onRowClick={handleRowClick}
+          pageSize={5}
+          rowsPerPageOptions={[5, 10, 20]}
+          disableSelectionOnClick
+        />
+      </Box>
+    </Box>
   );
 };
 

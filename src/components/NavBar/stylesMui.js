@@ -1,13 +1,15 @@
 export const navBarstyles = {
   drawer: {
-    // width: "100% !important",
-    // maxWidth: 350,
     flexShrink: 0,
     "& .MuiDrawer-paper": {
       width: 240,
+      height: "95vh",
       boxSizing: "border-box",
-      backgroundColor: "#101f33",
-      color: "rgba(255,255,255,0.7)",
+      backgroundColor: "#131618", //"#2c3e50", // Updated background color
+      color: "#ecf0f1", // Updated text color
+      borderRadius: "8px", // Added border radius
+      boxShadow: "4px 7px 15px rgba(0, 0, 0, 0.35)", // Added box shadow
+      margin: "0.8rem 0.4rem",
     },
     "& .Mui-selected": {
       color: "red",

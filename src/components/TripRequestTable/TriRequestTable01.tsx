@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { GridCellParams, GridColDef } from "@mui/x-data-grid";
-import { NavigateFunction, useNavigate } from "react-router-dom";
+import { GridColDef } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
 import DataTable from "../DataTable/DataTable";
-import { Button } from "@mui/material";
+import { Button, Box, Typography } from "@mui/material";
 import { useAppSelector } from "../../Features/storeHook";
 
-type Props = {};
-
 const tableStylesx = { height: 450, width: "100%" };
-interface Props1 {
-  _id: string | number;
-  id?: number;
+
+interface TripRequest {
+  _id: string; // Prisma CUID
+  id: number; // Convert to number for DataTable
   createdAt?: string;
   status?: string;
   email?: string;
@@ -18,114 +17,86 @@ interface Props1 {
   tripType?: string;
   userType?: string;
 }
-const TriRequestTable01 = (props: Props) => {
-  // const [users, setUsers] = useState<[]>([]);
-  const [user1, setUser1] = useState<Props1[]>([]);
+
+const TriRequestTable01: React.FC = () => {
+  const [user1, setUser1] = useState<TripRequest[]>([]);
   const tripRequests = useAppSelector(
     (state) => state.tripRequests.tripRequests
   );
-  //
 
-  function CustomLinkCell({ value }: { value: number }) {
-    const navigate: NavigateFunction = useNavigate();
+  function CustomLinkCell({ value, name }: { value: string; name: string }) {
+    const navigate = useNavigate();
 
     function handleClick() {
-      const to = `/request/${value}`;
-      navigate(to);
-      // history.push(`/details/${value}`); // Replace with the desired URL path
+      navigate(`/request/${value}`);
     }
 
-    return <Button onClick={handleClick}>View Trip</Button>;
+    return (
+      <Button onClick={handleClick} sx={{ textTransform: "none" }}>
+        {name}
+      </Button>
+    );
   }
 
   const columns: GridColDef[] = [
+    { field: "id", headerName: "Index", width: 90 }, // Renamed to clarify it’s an index
     {
-      field: "id", // the key to display from users array {}
-      headerName: "ID", // the name of that header
-      width: 90,
-    },
-    {
-      field: "name", // the key to display in users array {}
-      headerName: "Trip Name", // the name of that header
+      field: "name",
+      headerName: "Trip Name",
       width: 120,
       editable: true,
-      // renderCell: (params) => <CustomLinkCell value={params.row.id} />,
-    },
-    {
-      field: "email", // the key to display in users array {}
-      headerName: "Email", // the name of that header
-      width: 150,
-      editable: true,
-    },
-    {
-      field: "tripType", // the key to display in users array {}
-      headerName: "Trip Type", // the name of that header
-      width: 150,
-      editable: true,
-    },
-    {
-      field: "userType", // the key to display in users array {}
-      headerName: "User Type", // the name of that header
-      width: 150,
-      editable: true,
-    },
-    {
-      field: "status", // the key to display in users array {}
-      headerName: "Status", // the name of that header
-      width: 80,
-      editable: true,
-    },
-    {
-      field: "createdAt", // the key to display in users array {}
-      headerName: "Requeest Time", // the name of that header
-      width: 150,
-      editable: true,
-    },
-    {
-      field: "detailsLink",
-      headerName: "Details",
-      width: 150,
-      renderCell: (params: GridCellParams) => (
-        <CustomLinkCell value={params.row._id as number} />
+      renderCell: (params) => (
+        <CustomLinkCell value={params.row._id} name={params.row.name || ""} /> // Use _id for navigation
       ),
+    },
+    { field: "email", headerName: "Email", width: 150, editable: true },
+    { field: "tripType", headerName: "Trip Type", width: 150, editable: true },
+    { field: "userType", headerName: "User Type", width: 150, editable: true },
+    { field: "status", headerName: "Status", width: 80, editable: true },
+    {
+      field: "createdAt",
+      headerName: "Request Time",
+      width: 150,
+      editable: true,
     },
   ];
 
-  // useEffect(() => {
-  //   fetch("https://jsonplaceholder.typicode.com/users")
-  //     .then((response) => response.json())
-  //     .then((json) => setUsers(json));
-  // }, []);
-
-  //
   useEffect(() => {
     if (Array.isArray(tripRequests)) {
-      //   const newTripRequests = tripRequests.filter(
-      //     (trip) => trip.requestStatus === "new"
-      //   );
-      const props = tripRequests.map((trip, index) => {
-        return {
-          _id: trip._id,
-          id: index + 1,
-          createdAt: trip.createdAt,
-          status: trip.requestStatus,
-          email: trip.user.email,
-          name: trip.user.firstName,
-          tripType: trip.tripType,
-          userType: trip.user.userType,
-        };
-      });
-      setUser1([...props]);
+      const mappedRequests = tripRequests.map((trip, index) => ({
+        _id: String(trip._id), // Keep _id as string
+        id: index + 1, // Use index for DataGrid id (number)
+        createdAt: trip.createdAt,
+        status: trip.requestStatus,
+        email: trip.user.email,
+        name: trip.user.firstName,
+        tripType: trip.tripType,
+        userType: trip.user.userType,
+      }));
+      setUser1(mappedRequests);
     }
   }, [tripRequests]);
 
   return (
-    <DataTable
-      rows={user1}
-      columns={columns}
-      loading={!user1.length} // if no lenght loading runs
-      sx={tableStylesx}
-    />
+    <Box sx={{ p: 3 }}>
+      <Typography
+        variant="h5"
+        sx={{
+          mb: 2,
+          color: "#424242",
+          fontFamily: "'Poppins', sans-serif",
+          fontWeight: 600,
+        }}
+      >
+        Trip Requests
+      </Typography>
+      <DataTable
+        rows={user1}
+        columns={columns}
+        loading={!user1.length}
+        sx={tableStylesx}
+      />
+    </Box>
   );
 };
 

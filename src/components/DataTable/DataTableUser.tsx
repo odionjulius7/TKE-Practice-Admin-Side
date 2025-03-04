@@ -1,10 +1,10 @@
 import React from "react";
 import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
-import { Box } from "@mui/material";
+import { Box, SxProps, Theme } from "@mui/material";
 
 interface RowData {
-  _id: string | number;
-  id?: number;
+  _id: string; // Match Prisma CUIDs
+  id: string; // Updated to string for consistency
   createdAt?: string;
   status?: string;
   email?: string;
@@ -14,27 +14,33 @@ interface RowData {
   firstName?: string;
   lastName?: string;
   phone?: string;
+  postCode?: string;
+  role?: string;
+  phoneNumber?: string;
+  title?: string;
+  startDate?: string;
+  endDate?: string;
 }
 
 interface Props {
   rows: RowData[];
   columns: GridColDef[];
   loading: boolean;
-  sx: object;
+  sx: SxProps<Theme>; // Updated to use SxProps<Theme> for better typing
   onRowClick?: (params: GridRowParams) => void;
-  pageSize?: number; // Added
-  rowsPerPageOptions?: number[]; // Added
-  disableSelectionOnClick?: boolean; // Already included, but explicit
+  pageSize?: number;
+  rowsPerPageOptions?: number[];
+  disableSelectionOnClick?: boolean;
 }
 
-const DataTable: React.FC<Props> = ({
+const DataTableUser: React.FC<Props> = ({
   rows,
   columns,
   loading,
   sx,
   onRowClick,
-  pageSize = 6, // Default matches your initialState
-  rowsPerPageOptions = [5], // Default matches your pageSizeOptions
+  pageSize = 6,
+  rowsPerPageOptions = [5],
   disableSelectionOnClick = false,
 }) => {
   return (
@@ -58,4 +64,4 @@ const DataTable: React.FC<Props> = ({
   );
 };
 
-export default DataTable;
+export default DataTableUser;
